@@ -47,7 +47,7 @@ class UserService
      * @param \Illuminate\Http\Request  $request
      * @return array
      */
-    public function store($data){
+    public function store($request){
         DB::beginTransaction();
         try {
             // 処理
