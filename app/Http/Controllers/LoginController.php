@@ -27,7 +27,8 @@ class LoginController extends Controller
     // ログイン画面を表示
     public function create(Request $request)
     {
-        if(Auth::check()){
+        // 既にログインしている場合はトップページへ遷移する
+        if (Auth::check()) {
             return redirect('top');
         }
 
@@ -37,17 +38,17 @@ class LoginController extends Controller
     //　ログイン認証
     public function store(LoginRequest $request)
     {
+        // 暗号化したuser_passを取得
         $encrypt_pass = $this->encryptService->encrypt($request->input('password'));
         $login = $this->userService->login($request->input('id'), $encrypt_pass);
 
-        if($login == 200){
+        if ($login == 200) {
             // ログイン成功
-            Log::debug($request->input('id'));
             Auth::loginUsingId($request->input('id'));
 
             return redirect()->route('home');
-        }else{
-            // 失敗
+        } else {
+            // ログイン失敗
             throw ValidationException::withMessages([
                 'id' => ["ユーザIDまたは\nパスワードが一致しません"],
             ]);
@@ -57,12 +58,10 @@ class LoginController extends Controller
     // ログアウト
     public function destroy(Request $request)
     {
-
         if (Auth::check()) {
             Auth::logout();
         }
         return redirect()->route('login.show');
-
     }
 
     // トップページを表示

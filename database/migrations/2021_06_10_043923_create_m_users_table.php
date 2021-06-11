@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->primary('user_id');
         });
 
+        // 検索時に大文字小文字の判定をするためにBINARY属性をつける
         DB::statement('ALTER TABLE m_users MODIFY user_id varchar(10) BINARY COMMENT "ユーザID"');
         DB::statement('ALTER TABLE m_users MODIFY user_pass varchar(32) BINARY COMMENT "パスワード"');
     }

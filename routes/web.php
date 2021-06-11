@@ -14,23 +14,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'web'], function () {
-    Route::get('/login', 'LoginController@create')->name('login.show');
-    Route::post('/login', 'LoginController@store')->name('login.store');
-    Route::delete('/logout', 'LoginController@destroy')->name('logout');
+    Route::get('/login', 'LoginController@create')->name('login.show');     // ログイン画面表示
+    Route::post('/login', 'LoginController@store')->name('login.store');    // ログイン処理
+    Route::delete('/logout', 'LoginController@destroy')->name('logout');    // ログアウト処理
 
     Route::redirect('/', 'top')->name('home');
     
     Route::group(['middleware' => 'auth'], function () {
-        Route::get('/top', 'LoginController@top')->name('top');
+        Route::get('/top', 'LoginController@top')->name('top'); // トップページ表示（仮）
         // Route::prefix('users')
         //     ->name('users.')
         //     ->group(function () {
-        //         Route::get('/', 'UsersController@index')->name('list');
-        //         Route::get('/create', 'UsersController@create')->name('create');
-        //         Route::post('/', 'UsersController@store')->name('store');
-        //         Route::get('/{user_id}/edit', 'UsersController@edit')->name('edit');
-        //         Route::post('/{user_id}', 'UsersController@update')->name('update');
-        //         Route::delete('/{user_id}', 'UsersController@destroy')->name('destroy');
+        //         Route::get('/', 'UsersController@index')->name('list');                 // 一覧画面表示
+        //         Route::get('/create', 'UsersController@create')->name('create');        // 作成画面表示
+        //         Route::post('/', 'UsersController@store')->name('store');               // 作成処理
+        //         Route::get('/{user_id}/edit', 'UsersController@edit')->name('edit');    // 更新画面表示
+        //         Route::post('/{user_id}', 'UsersController@update')->name('update');    // 更新処理
+        //         Route::delete('/{user_id}', 'UsersController@destroy')->name('destroy');// 削除処理
         // });
     });
 });
