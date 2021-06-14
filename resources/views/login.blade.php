@@ -16,6 +16,9 @@
             @csrf
             <div class="login">
                 <div class="login__inner">
+                    <div>
+                        <img src="{{ asset('assets/img/TopLogo.png') }}">
+                    </div>
                     @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul style="float: left;position: relative; left: 50%;">
