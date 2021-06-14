@@ -29,7 +29,7 @@ class LoginController extends Controller
     {
         // 既にログインしている場合はトップページへ遷移する
         if (Auth::check()) {
-            return redirect('top');
+            return redirect('/');
         }
 
         return view('login');
