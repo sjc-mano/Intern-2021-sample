@@ -9,6 +9,7 @@
         <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
         <title> @yield('title') </title>
         <script src="{{ asset('assets/js/lib/jquery-3.4.1.min.js') }}"></script>
+        <script src="{{ asset('assets/js/common.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
         @section('style') @show
