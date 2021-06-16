@@ -25,21 +25,25 @@
                 </div>
             </form>
         </div>
-        <table class="user__table">
-            <tr class="user__table__tr">
-                <th class="user__table__th">ユーザID</th>
-                <th class="user__table__th">ユーザ名</th>
-            </tr>
-            @forelse($users as $user)
-            <tr class="user__table__tr" data-href="{{ url('/users/' . $user->user_id . '/edit')  }}">
-                <td class="user__table__td">{{ $user->user_id }}</td>
-                <td class="user__table__td">{{ $user->user_name }}</td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="2" style="text-align: center">取得したユーザは０件です</td>
-            </tr>
-            @endforelse
+        <table id="users_table" class="user__table">
+            <thead>
+                <tr class="user__table__tr">
+                    <th class="user__table__th"><span>ユーザID</span><span></span></th>
+                    <th class="user__table__th"><span>ユーザ名</span><span></span></th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($users as $user)
+                <tr class="user__table__tr" data-href="{{ url('/users/' . $user->user_id . '/edit')  }}">
+                    <td class="user__table__td">{{ $user->user_id }}</td>
+                    <td class="user__table__td">{{ $user->user_name }}</td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="2" style="text-align: center">取得したユーザは０件です</td>
+                </tr>
+                @endforelse
+            </tbody>
         </table>
     </div>
 </div>
@@ -47,5 +51,11 @@
 
 @section('javascript')
 <script>
+    $(document).ready(function () {
+        // ユーザIDの昇順でソート
+        $('#users_table').tablesorter({
+            sortList: [[0, 0]]
+        });
+    });
 </script>
 @endsection
