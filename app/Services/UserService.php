@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use App\Services\EncryptService;
 use Illuminate\Support\Facades\DB;
@@ -39,6 +40,30 @@ class UserService
             // ログイン成功
             return 200;
         }
+    }
+
+    /**
+     * ユーザ管理画面の検索
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return array
+     */
+    public function search(Request $request)
+    {
+        $data = array_filter($request->input());
+        $search_user_id = $data['user_id'] ?? "";
+        $search_user_name = $data['user_name'] ?? "";
+
+        // 検索条件指定(3文字以下→前方一致、３文字以上→部分一致)
+        $where = [
+            ["user_id", "like", (mb_strlen($search_user_id) >= 3 ? "%" : "") . "$search_user_id%"],
+            ["user_name", "like", (mb_strlen($search_user_name) >= 3 ? "%" : "") . "$search_user_name%"],
+            ["delete_flg", config("const.FLAG.OFF")]
+        ];
+        // 取得カラム指定
+        $columns = ['user_id', 'user_name'];
+
+        return $this->userRepository->get($where, $columns)->get();
     }
 
     /**

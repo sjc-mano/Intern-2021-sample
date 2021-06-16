@@ -14,12 +14,13 @@
         <div class="user__search">
             <form id="search_form" action="{{ route('users.list') }}" method="get" autocomplete="off">
                 <div class="user__search__flex">
-                    <input id="js-search-userid" type="text" class="user__search__userId" placeholder="ユーザID"
-                        maxlength="10">
+                    <input id="js-search-userid" name="user_id" type="text" class="user__search__userId"
+                        placeholder="ユーザID" maxlength="10" value="{{ Request::query('user_id') }}">
                 </div>
                 <div id="js-error-search-userid" class="edit__format__errorMessage-list"></div>
                 <div class="user__search__flex">
-                    <input type="text" class="user__search__userName" placeholder="ユーザ名" maxlength="20">
+                    <input name="user_name" type="text" class="user__search__userName" placeholder="ユーザ名" maxlength="20"
+                        value="{{ Request::query('user_name') }}">
                     <button id="js-userlist_search" class="button--oval--search" type="submit">検索</button>
                 </div>
             </form>
@@ -29,22 +30,16 @@
                 <th class="user__table__th">ユーザID</th>
                 <th class="user__table__th">ユーザ名</th>
             </tr>
-            <tr class="user__table__tr">
-                <td class="user__table__td">001</td>
-                <td class="user__table__td">sample1</td>
+            @forelse($users as $user)
+            <tr class="user__table__tr" data-href="{{ url('/users/' . $user->user_id . '/edit')  }}">
+                <td class="user__table__td">{{ $user->user_id }}</td>
+                <td class="user__table__td">{{ $user->user_name }}</td>
             </tr>
-            <tr class="user__table__tr">
-                <td class="user__table__td">002</td>
-                <td class="user__table__td">sample2</td>
+            @empty
+            <tr>
+                <td colspan="2" style="text-align: center">取得したユーザは０件です</td>
             </tr>
-            <tr class="user__table__tr">
-                <td class="user__table__td">003</td>
-                <td class="user__table__td">sample3</td>
-            </tr>
-            <tr class="user__table__tr">
-                <td class="user__table__td">004</td>
-                <td class="user__table__td">sample4</td>
-            </tr>
+            @endforelse
         </table>
     </div>
 </div>

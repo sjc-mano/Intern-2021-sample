@@ -30,7 +30,12 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        return view('users.list');
+        // 検索条件に一致するユーザの取得
+        $users = $this->userService->search($request);
+
+        return view('users.list')->with([
+            'users' => $users
+        ]);
     }
 
     /**
