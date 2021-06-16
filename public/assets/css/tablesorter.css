@@ -1,0 +1,28 @@
+.tablesorter-header span:nth-of-type(1) {
+    display: inline-block;
+}
+
+.tablesorter-headerUnSorted:not(.sorter-false) span:nth-of-type(2) {
+    background-image: url('../img/UnSorted.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size:10px 10px;
+    padding-right: 15px;
+}
+
+.tablesorter-headerAsc:not(.sorter-false) span:nth-of-type(2) {
+    background-image: url('../img/SortAsc.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size:12px 12px;
+    padding-right: 15px;
+}
+
+.tablesorter-headerDesc:not(.sorter-false) span:nth-of-type(2) {
+    background-image: url('../img/SortDesc.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size:12px 12px;
+    padding-right: 15px;
+}
+
