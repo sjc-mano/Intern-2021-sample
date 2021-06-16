@@ -34,7 +34,7 @@
             </thead>
             <tbody>
                 @forelse($users as $user)
-                <tr class="user__table__tr" data-href="{{ url('/users/' . $user->user_id . '/edit')  }}">
+                <tr class="user__table__tr" data-href="{{ route('users.edit', [$user->user_id])  }}">
                     <td class="user__table__td">{{ $user->user_id }}</td>
                     <td class="user__table__td">{{ $user->user_name }}</td>
                 </tr>
@@ -55,6 +55,13 @@
         // ユーザIDの昇順でソート
         $('#users_table').tablesorter({
             sortList: [[0, 0]]
+        });
+    });
+
+    // クリックされたユーザの編集画面へ遷移
+    $(function($) {
+        $("tbody .user__table__tr").css("cursor","pointer").click(function() {
+            location.href = $(this).data("href");
         });
     });
 </script>
