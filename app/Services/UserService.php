@@ -54,15 +54,13 @@ class UserService
 
             DB::commit();
             return ['success' => config('const.SUCCESS_MESSAGE.STORE')];
-        } catch (QueryException $exception) {
-            Log::error('Query exception: ' . $exception->getMessage());
-        } catch (Throwable $throwable) {
-            Log::error('System exception: ' . $throwable->getMessage());
+        } catch (\Throwable $throwable) {
+            Log::error($throwable->getFile() . " : line " . $throwable->getLine());
+            Log::error('UserService->store ExceptionMessage = ' . $throwable->getMessage());
         } finally {
             DB::rollBack();
             return ['error' => config('const.ERROR_MESSAGE.STORE')];
         }
-
     }
 
     /**
@@ -79,13 +77,12 @@ class UserService
 
             DB::commit();
             return ['success' => config('const.SUCCESS_MESSAGE.UPDATE')];
-        } catch (QueryException $exception) {
-            Log::error('Query exception: ' . $exception->getMessage());
-        } catch (Throwable $throwable) {
-            Log::error('System exception: ' . $throwable->getMessage());
+        } catch (\Throwable $throwable) {
+            Log::error($throwable->getFile() . " : line " . $throwable->getLine());
+            Log::error('UserService->store ExceptionMessage = ' . $throwable->getMessage());
         } finally {
             DB::rollBack();
-            return ['error' => config('const.ERROR_MESSAGE.UPDATE')];
+            return ['error' => config('const.ERROR_MESSAGE.STORE')];
         }
     }
 
@@ -104,13 +101,12 @@ class UserService
 
             DB::commit();
             return ['success' => config('const.SUCCESS_MESSAGE.DELETE')];
-        } catch (QueryException $exception) {
-            Log::error('Query exception: ' . $exception->getMessage());
-        } catch (Throwable $throwable) {
-            Log::error('System exception: ' . $throwable->getMessage());
+        } catch (\Throwable $throwable) {
+            Log::error($throwable->getFile() . " : line " . $throwable->getLine());
+            Log::error('UserService->store ExceptionMessage = ' . $throwable->getMessage());
         } finally {
             DB::rollBack();
-            return ['error' => config('const.ERROR_MESSAGE.DELETE')];
+            return ['error' => config('const.ERROR_MESSAGE.STORE')];
         }
     }
 }
