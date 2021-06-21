@@ -10,8 +10,13 @@
         <title> @yield('title') </title>
         <script src="{{ asset('assets/js/lib/jquery-3.4.1.min.js') }}"></script>
         <script src="{{ asset('assets/js/common.js') }}"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/jquery.tablesorter.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/extras/jquery.metadata.min.js"></script>
+    @if (Request::is('users/create*') || Request::is('users/*/edit*'))
+    <script src="{{ asset('assets/js/usersedit.js') }}"></script>
+    @endif
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/jquery.tablesorter.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.1/js/extras/jquery.metadata.min.js"></script>
         <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/tablesorter.css') }}">
 
