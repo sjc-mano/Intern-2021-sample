@@ -24,13 +24,13 @@ class UserService
     /**
      * ログイン判定
      *
-     * @param string $user_id
-     * @param string $user_pass
+     * @param string $userId
+     * @param string $userPass
      * @return int
      */
-    public function login($user_id, $user_pass)
+    public function login($userId, $userPass)
     {
-        $user = $this->userRepository->getByIdPass($user_id, $user_pass, ['user_id'])->first();
+        $user = $this->userRepository->getByIdPass($userId, $userPass, ['user_id'])->first();
 
         if(is_null($user)){
             // ログイン失敗
@@ -51,13 +51,13 @@ class UserService
     public function search(Request $request)
     {
         $data = array_filter($request->input());
-        $search_user_id = $data['user_id'] ?? "";
-        $search_user_name = $data['user_name'] ?? "";
+        $searchUserId = $data['user_id'] ?? "";
+        $searchUserName = $data['user_name'] ?? "";
 
         // 検索条件指定(3文字以下→前方一致、３文字以上→部分一致)
         $where = [
-            ["user_id", "like", (mb_strlen($search_user_id) >= 3 ? "%" : "") . "$search_user_id%"],
-            ["user_name", "like", (mb_strlen($search_user_name) >= 3 ? "%" : "") . "$search_user_name%"],
+            ["user_id", "like", (mb_strlen($searchUserId) >= 3 ? "%" : "") . "$searchUserId%"],
+            ["user_name", "like", (mb_strlen($searchUserName) >= 3 ? "%" : "") . "$searchUserName%"],
             ["delete_flg", config("const.FLAG.OFF")]
         ];
         // 取得カラム指定
@@ -92,10 +92,10 @@ class UserService
      * ユーザを更新
      *
      * @param \Illuminate\Http\Request  $request
-     * @param string $user_id
+     * @param string $userId
      * @return array
      */
-    public function update($request, $user_id){
+    public function update($request, $userId){
         DB::beginTransaction();
         try {
             // 処理
@@ -115,10 +115,10 @@ class UserService
      * ユーザを削除
      *
      * @param \Illuminate\Http\Request  $request
-     * @param string $user_id
+     * @param string $userId
      * @return array
      */
-    public function destroy($request, $user_id)
+    public function destroy($request, $userId)
     {
         DB::beginTransaction();
         try {
