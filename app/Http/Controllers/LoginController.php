@@ -38,9 +38,7 @@ class LoginController extends Controller
     //　ログイン認証
     public function store(LoginRequest $request)
     {
-        // 暗号化したuser_passを取得
-        $encrypt_pass = $this->encryptService->encrypt($request->input('password'));
-        $login = $this->userService->login($request->input('id'), $encrypt_pass);
+        $login = $this->userService->login($request);
 
         if ($login == 200) {
             // ログイン成功

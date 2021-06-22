@@ -15,14 +15,14 @@ class UserRepository extends BaseRepository
     /**
      * user_idでユーザデータを取得するためのクエリビルダを生成
      *
-     * @param string $user_id
+     * @param string $userId
      * @param array  $columns
      * @return Illuminate\Database\Query\Builder $queryBuilder
      */
-    public function getById($user_id, $columns)
+    public function getById($userId, $columns)
     {
         $where = [
-            ['user_id', $user_id],
+            ['user_id', $userId],
             ['delete_flg', config('const.FLAG.OFF')]
         ];
 
@@ -32,16 +32,16 @@ class UserRepository extends BaseRepository
     /**
      * user_idとuserpassでユーザデータを取得するためのクエリビルダを生成
      *
-     * @param string $user_id
-     * @param string $user_pass
+     * @param string $userId
+     * @param string $userPass
      * @param array  $columns
      * @return Illuminate\Database\Query\Builder $queryBuilder
      */
-    public function getByIdPass($user_id, $user_pass, $columns)
+    public function getByIdPass($userId, $userPass, $columns)
     {
         $where = [
-            ['user_id', $user_id],
-            ['user_pass', $user_pass],
+            ['user_id', $userId],
+            ['user_pass', $userPass],
             ['delete_flg', config('const.FLAG.OFF')]
         ];
 
