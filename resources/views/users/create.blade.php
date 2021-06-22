@@ -19,7 +19,7 @@
     </div>
     <form id="update-form" action="{{ route('users.store') }}" method="post" autocomplete="off">
         @csrf
-        <button id="js-usersave" class="sp-fixed--bottom" type="button">保存</button>
+        <button id="js-usersave" class="sp-fixed--bottom" type="button" style="display: none;">保存</button>
         <div class="useredit">
             <div class="user__format">
                 <div>
@@ -67,6 +67,8 @@
 
 <script>
     const loginUserId = "{{ Auth::id() }}";
+    const submitUrl = "{{ route('users.store') }}";
+    const editUrl = "{{ route('users.edit', ['user_id' => '@']) }}";
     // 戻るボタン
     $('#back_button').on('click', function() {
         window.location.href = "{{ route('users.list') }}";

@@ -24,21 +24,21 @@ class UserService
     /**
      * ログイン判定
      *
-     * @param string $userId
+     * @param \Illuminate\Http\Request $request
      * @param string $userPass
      * @return int
      */
-    public function login($userId, $userPass)
+    public function login($request)
     {
-        $user = $this->userRepository->getByIdPass($userId, $userPass, ['user_id'])->first();
+        $user = $this->userRepository->get(['user_id' => $request['id']], ['user_pass'])->first();
 
-        if(is_null($user)){
-            // ログイン失敗
-            return 404;
-        }
-        else{
+        if($request['password'] === $user->user_pass){
             // ログイン成功
             return 200;
+        }
+        else{
+            // ログイン失敗
+            return 404;
         }
     }
 
@@ -76,13 +76,14 @@ class UserService
         DB::beginTransaction();
         try {
             $data = array_filter($request->input());
-            $encryptedPass = $this->encryptService->encrypt($data['user_pass']);
+            // $encryptedPass = $this->encryptService->encrypt($data['user_pass']);
 
             $return = $this->userRepository->store([
                 'user_id' => $data['user_id'],
-                'user_pass' => $encryptedPass,
+                // 'user_pass' => $encryptedPass,
+                'user_pass' => $data['user_pass'],
                 'user_name' => $data['user_name'],
-                'mail_address' => $data['mailaddress']
+                'mail_address' => $data['mailaddress'] ?? null
             ]);
 
             DB::commit();
@@ -90,7 +91,6 @@ class UserService
         } catch (\Throwable $throwable) {
             Log::error($throwable->getFile() . " : line " . $throwable->getLine());
             Log::error('UserService->store ExceptionMessage = ' . $throwable->getMessage());
-        } finally {
             DB::rollBack();
             return ['error' => config('const.MESSAGE.ERROR.STORE')];
         }
@@ -113,7 +113,6 @@ class UserService
         } catch (\Throwable $throwable) {
             Log::error($throwable->getFile() . " : line " . $throwable->getLine());
             Log::error('UserService->store ExceptionMessage = ' . $throwable->getMessage());
-        } finally {
             DB::rollBack();
             return ['error' => config('const.MESSAGE.ERROR.STORE')];
         }
@@ -137,7 +136,6 @@ class UserService
         } catch (\Throwable $throwable) {
             Log::error($throwable->getFile() . " : line " . $throwable->getLine());
             Log::error('UserService->store ExceptionMessage = ' . $throwable->getMessage());
-        } finally {
             DB::rollBack();
             return ['error' => config('const.MESSAGE.ERROR.STORE')];
         }

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUsersRequest;
 use Illuminate\Http\Request;
 use App\Services\EncryptService;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
@@ -52,12 +52,18 @@ class UserController extends Controller
     /**
      * ユーザ作成
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\StoreUsersRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUsersRequest $request)
     {
-        return view('users.create');
+        $return = $this->userService->store($request);
+
+        if(array_key_exists('success', $return)){
+            return response()->json(['message' => $return['success']], 200);
+        }else{
+            return response()->json(['message' => $return['error']], 500);
+        }
     }
 
     /**

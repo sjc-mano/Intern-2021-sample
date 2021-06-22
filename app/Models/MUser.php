@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\EncryptService;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class MUser extends Authenticatable
@@ -25,4 +26,27 @@ class MUser extends Authenticatable
         'updated_at',
         'delete_flg'
     ];
+
+    /**
+     * パスワード複合
+     *
+     * @return string
+     */
+    public function getUserPassAttribute($value)
+    {
+        $encryptService = new EncryptService();
+        return $encryptService->decrypt($value);
+    }
+
+    /**
+     * パスワード暗号化
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setUserPassAttribute($value)
+    {
+        $encryptService = new EncryptService();
+        $this->attributes['user_pass'] = $encryptService->encrypt($value);
+    }
 }
