@@ -87,7 +87,7 @@ class UserService
             return ['success' => config('const.MESSAGE.SUCCESS.STORE')];
         } catch (\Throwable $throwable) {
             Log::error($throwable->getFile() . " : line " . $throwable->getLine());
-            Log::error('UserService->store ExceptionMessage = ' . $throwable->getMessage());
+            Log::error('UserService->store ExceptionMessage :\n ' . $throwable->getMessage());
             DB::rollBack();
             return ['error' => config('const.MESSAGE.ERROR.STORE')];
         }
@@ -109,7 +109,7 @@ class UserService
             return ['success' => config('const.MESSAGE.SUCCESS.UPDATE')];
         } catch (\Throwable $throwable) {
             Log::error($throwable->getFile() . " : line " . $throwable->getLine());
-            Log::error('UserService->store ExceptionMessage = ' . $throwable->getMessage());
+            Log::error('UserService->store ExceptionMessage :\n ' . $throwable->getMessage());
             DB::rollBack();
             return ['error' => config('const.MESSAGE.ERROR.STORE')];
         }
@@ -132,7 +132,7 @@ class UserService
             return ['success' => config('const.MESSAGE.SUCCESS.DELETE')];
         } catch (\Throwable $throwable) {
             Log::error($throwable->getFile() . " : line " . $throwable->getLine());
-            Log::error('UserService->store ExceptionMessage = ' . $throwable->getMessage());
+            Log::error('UserService->store ExceptionMessage :\n ' . $throwable->getMessage());
             DB::rollBack();
             return ['error' => config('const.MESSAGE.ERROR.STORE')];
         }
