@@ -30,9 +30,9 @@ class UserService
      */
     public function login($request)
     {
-        $user = $this->userRepository->get(['user_id' => $request['id']], ['user_pass'])->first();
+        $user = $this->userRepository->get(['user_id' => $request['id']])->NotDeleted()->first();
 
-        if($request['password'] === $user->user_pass){
+        if($user && $request['password'] === $user->user_pass){
             // ログイン成功
             return 200;
         }
@@ -57,13 +57,12 @@ class UserService
         // 検索条件指定(3文字以下→前方一致、３文字以上→部分一致)
         $where = [
             ["user_id", "like", (mb_strlen($searchUserId) >= 3 ? "%" : "") . "$searchUserId%"],
-            ["user_name", "like", (mb_strlen($searchUserName) >= 3 ? "%" : "") . "$searchUserName%"],
-            ["delete_flg", config("const.FLAG.OFF")]
+            ["user_name", "like", (mb_strlen($searchUserName) >= 3 ? "%" : "") . "$searchUserName%"]
         ];
         // 取得カラム指定
         $columns = ['user_id', 'user_name'];
 
-        return $this->userRepository->get($where, $columns)->get();
+        return $this->userRepository->get($where, $columns)->NotDeleted()->get();
     }
 
     /**
@@ -76,11 +75,9 @@ class UserService
         DB::beginTransaction();
         try {
             $data = array_filter($request->input());
-            // $encryptedPass = $this->encryptService->encrypt($data['user_pass']);
 
             $return = $this->userRepository->store([
                 'user_id' => $data['user_id'],
-                // 'user_pass' => $encryptedPass,
                 'user_pass' => $data['user_pass'],
                 'user_name' => $data['user_name'],
                 'mail_address' => $data['mailaddress'] ?? null
@@ -90,7 +87,7 @@ class UserService
             return ['success' => config('const.MESSAGE.SUCCESS.STORE')];
         } catch (\Throwable $throwable) {
             Log::error($throwable->getFile() . " : line " . $throwable->getLine());
-            Log::error('UserService->store ExceptionMessage = ' . $throwable->getMessage());
+            Log::error('UserService->store ExceptionMessage :\n ' . $throwable->getMessage());
             DB::rollBack();
             return ['error' => config('const.MESSAGE.ERROR.STORE')];
         }
@@ -112,7 +109,7 @@ class UserService
             return ['success' => config('const.MESSAGE.SUCCESS.UPDATE')];
         } catch (\Throwable $throwable) {
             Log::error($throwable->getFile() . " : line " . $throwable->getLine());
-            Log::error('UserService->store ExceptionMessage = ' . $throwable->getMessage());
+            Log::error('UserService->store ExceptionMessage :\n ' . $throwable->getMessage());
             DB::rollBack();
             return ['error' => config('const.MESSAGE.ERROR.STORE')];
         }
@@ -135,7 +132,7 @@ class UserService
             return ['success' => config('const.MESSAGE.SUCCESS.DELETE')];
         } catch (\Throwable $throwable) {
             Log::error($throwable->getFile() . " : line " . $throwable->getLine());
-            Log::error('UserService->store ExceptionMessage = ' . $throwable->getMessage());
+            Log::error('UserService->store ExceptionMessage :\n ' . $throwable->getMessage());
             DB::rollBack();
             return ['error' => config('const.MESSAGE.ERROR.STORE')];
         }
