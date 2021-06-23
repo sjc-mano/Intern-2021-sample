@@ -36,7 +36,7 @@ abstract class BaseRepository
      * @param Array  $columns
      * @return int
      */
-    public function update(Builder $target, Array $columns)
+    public function update(Builder $target, Array $columns = ['*'])
     {
         return $target->update($columns);
     }
@@ -59,7 +59,7 @@ abstract class BaseRepository
      * @param array  $columns
      * @return Illuminate\Database\Query\Builder $queryBuilder
      */
-    public function get($where, $columns)
+    public function get(Array $where, Array $columns = ['*'])
     {
         return $this->model::where($where)
         ->select($columns);

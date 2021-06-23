@@ -27,6 +27,12 @@ class MUser extends Authenticatable
         'delete_flg'
     ];
 
+    // 削除フラグのスコープ（削除されていないものを取得）
+    public function scopeNotDeleted($query)
+    {
+        return $query->where('delete_flg', 0);
+    }
+
     /**
      * パスワード複合
      *
