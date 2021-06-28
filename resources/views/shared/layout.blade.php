@@ -43,6 +43,9 @@
         document.getElementById("user_li").onclick = function () {
             window.location.href = "{{ route('users.list') }}";
         };
+        document.getElementById("item_li").onclick = function () {
+            window.location.href = "{{ route('items.list') }}";
+        };
     </script>
 </body>
 

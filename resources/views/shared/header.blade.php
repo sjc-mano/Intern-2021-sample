@@ -20,13 +20,13 @@
                 お知らせ
             </a>
         </li>
-        <li id="item_li" class="menubar__nav__li">
+        <li id="item_li" class="menubar__nav__li {{ Request::is('items*') ? 'is-curent' : '' }}">
             <div class="menubar__nav__image"><img src="{{ asset('assets/img/NavibarProductnumber.svg') }}" alt="" width="30" height="30"></div>
             <a class="menubar__nav__item">
                 品番マスタ
             </a>
         </li>
-        <li id="user_li" class="menubar__nav__li  {{ Request::is('users*') ? 'is-curent' : '' }}">
+        <li id="user_li" class="menubar__nav__li {{ Request::is('users*') ? 'is-curent' : '' }}">
             <div class="menubar__nav__image"><img src="{{ asset('assets/img/NavibarUser.svg') }}" alt="" width="30" height="30"></div>
             <a class="menubar__nav__item">
                 ユーザ管理
