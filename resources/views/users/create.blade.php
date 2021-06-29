@@ -53,7 +53,7 @@
                     <div class="user__format__title">メールアドレス</div>
                 </div>
                 <div>
-                    <input id="js-mailaddress" class="user__format__input" name="mailaddress" type="text" value="{{ old('mailaddress') }}" maxlength="50">
+                    <input id="js-mailaddress" class="user__format__input" name="mail_address" type="text" value="{{ old('mail_address') }}" maxlength="50">
                 </div>
                 <div id="js-error-mailaddress" class="edit__format__errorMessage"></div>
             </div>

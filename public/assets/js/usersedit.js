@@ -153,6 +153,38 @@ $(function () {
                         $("#overlay").fadeOut(300); // Lading 画像を消す
                     });
                 }
+                else if (url.match(/\/users\/[\S]+\/edit/)) {
+                    // 編集の場合
+                    $.ajax({
+                        type: 'PATCH',
+                        url: submitUrl,
+                        data: form,
+                        dataType: 'json',
+                        timeout: 15000,
+                        beforeSend: () => {
+                            $("#overlay").fadeIn(300); // Lading 画像を表示
+                        }
+                    }).done((response) => {
+                        alert('保存が完了しました。\n※ページを更新します。');
+                        window.location.reload(); // ページの更新
+                    }).fail((response) => {
+                        // サーバからエラー内容を取得してエラー内容ごとにメッセージを設定
+                        if (response.status == 422) {
+                            let error = response.responseJSON.errors;
+                            console.log(error);
+                            validationErrorDisplay(error)
+                        }
+                        else if (response.status == 409) {
+                            let message = response.responseJSON.message.replace('/\\n/mg', '\n');
+                            alert(message);
+                        }
+                        else {
+                            alert(`保存に失敗しました。\n`);
+                        }
+                    }).always((data) => {
+                        $("#overlay").fadeOut(300); // Lading 画像を消す
+                    });
+                }
             }
         }
     });
@@ -166,6 +198,7 @@ $(function () {
     });
 
     function validationErrorDisplay(message) {
+        console.log("aaa");
         if (message.user_id) {
             errorUserId.css("display", "block");
             errorUserId.text(message.user_id[0]);
@@ -184,9 +217,9 @@ $(function () {
             errorCountUserName = "1";
         }
 
-        if (message.mailaddress) {
+        if (message.mail_address) {
             errorMailaddress.css("display", "block");
-            errorMailaddress.text(message.mailaddress[0]);
+            errorMailaddress.text(message.mail_address[0]);
             errorCountMailaddress = "1";
         }
 

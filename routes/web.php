@@ -39,8 +39,8 @@ Route::group(['middleware' => 'web'], function () {
                 Route::get('/create', 'UserController@create')->name('create');        // 作成画面表示
                 Route::post('/', 'UserController@store')->name('store');               // 作成
                 Route::get('/{user_id}/edit', 'UserController@edit')->name('edit');    // 更新画面表示
-                // Route::patch('/{user_id}', 'UserController@update')->name('update');    // 更新
-                // Route::delete('/{user_id}', 'UserController@destroy')->name('destroy');// 削除
+                Route::patch('/{user_id}', 'UserController@update')->name('update');    // 更新
+                Route::delete('/{user_id}', 'UserController@destroy')->name('destroy');// 削除
         });
     });
 });

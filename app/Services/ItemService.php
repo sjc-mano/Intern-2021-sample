@@ -61,7 +61,7 @@ class ItemService
      * @param string $itemId
      * @return array
      */
-    public function update($request, $itemId){
+    public function update($request){
         DB::beginTransaction();
         try {
             // 処理
@@ -83,7 +83,7 @@ class ItemService
      * @param string $itemId
      * @return array
      */
-    public function destroy($request, $itemId)
+    public function destroy($request)
     {
         DB::beginTransaction();
         try {

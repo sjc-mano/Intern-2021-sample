@@ -7,7 +7,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreUsersRequest extends FormRequest
+class EditUsersRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,10 +27,10 @@ class StoreUsersRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id' => ['required', 'regex:/^[A-Za-z0-9]+$/', 'max:10', Rule::unique('m_users')->where('delete_flg', 0)],
+            'user_id' => ['required', 'regex:/^[A-Za-z0-9]+$/', 'max:10'],
             'user_pass' => ['required', 'regex:/^[A-Za-z0-9●]+$/', 'max:10'],
             'user_name' => ['required', 'max:20'],
-            'mail_address' => ['nullable', 'email:strict,dns,spoof', 'max:50'],
+            'mail_address' => ['nullable', 'email:strict,dns,spoof', 'max:50']
         ];
     }
 
@@ -45,7 +45,6 @@ class StoreUsersRequest extends FormRequest
             'user_id.required' => 'ユーザIDは必須です。',
             'user_id.regex' => 'ユーザIDは半角英数字のみにしてください。',
             'user_id.max' => 'ユーザIDは10文字以下にしてください。',
-            'user_id.unique' => '入力されたユーザIDは使用されています。',
             'user_pass.required' => 'パスワードは必須です。',
             'user_pass.regex' => 'パスワードは半角英数字のみにしてください。',
             'user_pass.max' => 'パスワードは10文字以下にしてください。',

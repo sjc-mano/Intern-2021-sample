@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUsersRequest;
+use App\Http\Requests\EditUsersRequest;
 use Illuminate\Http\Request;
+use App\Services\CommonService;
 use App\Services\EncryptService;
 use App\Services\UserService;
 use Illuminate\Support\Facades\Cookie;
@@ -11,13 +13,16 @@ use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
+    protected $commonService;
     protected $encryptService;
     protected $userService;
 
     public function __construct(
+        CommonService $commonService,
         EncryptService $encryptService,
         UserService $userService
     ) {
+        $this->commonService = $commonService;
         $this->encryptService = $encryptService;
         $this->userService = $userService;
     }
@@ -74,18 +79,36 @@ class UserController extends Controller
      */
     public function edit(Request $request)
     {
-        return view('users.edit');
+        // ユーザ情報の取得
+        $user = $this->userService->getUser($request['user_id']);
+
+        return view('users.edit')->with([
+            'user' => $user
+        ]);
     }
 
     /**
      * ユーザ編集
      *
-     * @param \Illuminate\Http\Request $request
+     * @param \App\Http\Requests\EditUsersRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(EditUsersRequest $request)
     {
-        
+        // 排他チェック
+        $updatedFlg = $this->commonService->updatedCheck("User", $request->user_id, $request->display_page_time);
+        if($updatedFlg){
+            return response()->json(['message' => config('const.MESSAGE.UPDATED')], 409);
+        }
+
+        // 保存処理
+        $return = $this->userService->update($request);
+
+        if(array_key_exists('success', $return)){
+            return response()->json(['message' => $return['success']], 200);
+        }else{
+            return response()->json(['message' => $return['error']], 500);
+        }
     }
 
     /**

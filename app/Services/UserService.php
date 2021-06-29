@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use App\Services\EncryptService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class UserService
@@ -100,10 +101,22 @@ class UserService
      * @param string $userId
      * @return array
      */
-    public function update($request, $userId){
+    public function update($request){
         DB::beginTransaction();
         try {
-            // 処理
+            $update_data = [
+                'user_name' => $request->user_name,
+                'mail_address' => $request->mail_address,
+            ];
+
+            if($request->user_pass != "●●●●"){
+                $update_data['user_pass'] = Hash::make($request->user_pass);
+            }
+
+            $user = $this->userRepository->get([['user_id', $request->user_id]]);
+
+            // ユーザマスタの更新
+            $this->userRepository->update($user, $update_data);
 
             DB::commit();
             return ['success' => config('const.MESSAGE.SUCCESS.UPDATE')];
@@ -122,7 +135,7 @@ class UserService
      * @param string $userId
      * @return array
      */
-    public function destroy($request, $userId)
+    public function destroy($request)
     {
         DB::beginTransaction();
         try {
@@ -136,5 +149,20 @@ class UserService
             DB::rollBack();
             return ['error' => config('const.MESSAGE.ERROR.STORE')];
         }
+    }
+
+    /**
+     * ユーザ情報の取得
+     *
+     * @param string $userId
+     * @return model
+     */
+    public function getUser($userId)
+    {
+        $where = [['user_id', $userId]];
+        $columns = ['*'];
+        $user = $this->userRepository->get($where, $columns)->first();
+
+        return $user;
     }
 }

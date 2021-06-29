@@ -19,6 +19,11 @@ class MItem extends Model
         'delete_flg'
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
+    ];
+
     // 削除フラグのスコープ（削除されていないものを取得）
     public function scopeNotDeleted($query)
     {

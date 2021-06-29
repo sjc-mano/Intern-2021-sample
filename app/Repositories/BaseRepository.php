@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
 /**
  * Extends this class
@@ -32,11 +32,11 @@ abstract class BaseRepository
     /**
      * This is method in order to update.
      *
-     * @param Illuminate\Database\Query\Builder $target
+     * @param Illuminate\Database\Eloquent\Builder $target
      * @param Array  $columns
      * @return int
      */
-    public function update(Builder $target, Array $columns = ['*'])
+    public function update(Builder $target, Array $columns)
     {
         return $target->update($columns);
     }
@@ -44,7 +44,7 @@ abstract class BaseRepository
     /**
      * This is method in order to destroy.
      *
-     * @param Illuminate\Database\Query\Builder
+     * @param Illuminate\Database\Eloquent\Builder
      * @return int
      */
     public function destroy(Builder $target)
@@ -57,7 +57,7 @@ abstract class BaseRepository
      *
      * @param array $where
      * @param array  $columns
-     * @return Illuminate\Database\Query\Builder $queryBuilder
+     * @return Illuminate\Database\Eloquent\Builder $queryBuilder
      */
     public function get(Array $where, Array $columns = ['*'])
     {
