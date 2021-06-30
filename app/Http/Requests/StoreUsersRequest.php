@@ -69,6 +69,7 @@ class StoreUsersRequest extends FormRequest
     {
         $response['summary'] = 'Failed validation.';
         $response['errors']  = $validator->errors()->toArray();
+        $response['message'] = config("const.MESSAGE.ERROR.VALIDATION");
 
         throw new HttpResponseException(
             response()->json($response, 422)

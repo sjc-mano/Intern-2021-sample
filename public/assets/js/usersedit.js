@@ -52,9 +52,7 @@ $(function () {
 
     userPassword.on("blur", () => {
         if (userPassword.val() == "") {
-            errorUserPassword.css("display", "block");
-            errorUserPassword.text("パスワードを入力してください。");
-            errorCountUserPassword = "1";
+            userPassword.val("●●●●");
         }
         else if (!userPassword.val().match(/^[0-9a-zA-Z]*$/)) {
             errorUserPassword.css("display", "block");
@@ -139,16 +137,18 @@ $(function () {
                             $("#overlay").fadeIn(300); // Lading 画像を表示
                         }
                     }).done((response) => {
-                        alert('保存が完了しました。\n※ページを更新します。');
+                        let message = response.message;
+                        alert(message);
                         window.location.href = editUrl.replace('@', userId.val()); // 登録したユーザの編集画面へ移動
                     }).fail((response) => {
                         // サーバからエラー内容を取得してエラー内容ごとにメッセージを設定
                         if (response.status == 422) {
-                            let message = response.responseJSON.errors;
-                            validationErrorDisplay(message)
+                            let errors = response.responseJSON.errors;
+                            validationErrorDisplay(errors);
                         }
-
-                        alert(`保存に失敗しました。\n`);
+                        console.log(response);
+                        let message = response.responseJSON.message;
+                        alert(message);
                     }).always((data) => {
                         $("#overlay").fadeOut(300); // Lading 画像を消す
                     });
@@ -165,22 +165,18 @@ $(function () {
                             $("#overlay").fadeIn(300); // Lading 画像を表示
                         }
                     }).done((response) => {
-                        alert('保存が完了しました。\n※ページを更新します。');
+                        let message = response.message;
+                        alert(message);
                         window.location.reload(); // ページの更新
                     }).fail((response) => {
                         // サーバからエラー内容を取得してエラー内容ごとにメッセージを設定
                         if (response.status == 422) {
-                            let error = response.responseJSON.errors;
-                            console.log(error);
-                            validationErrorDisplay(error)
+                            let errors = response.responseJSON.errors;
+                            validationErrorDisplay(errors);
                         }
-                        else if (response.status == 409) {
-                            let message = response.responseJSON.message.replace('/\\n/mg', '\n');
-                            alert(message);
-                        }
-                        else {
-                            alert(`保存に失敗しました。\n`);
-                        }
+
+                        let message = response.responseJSON.message;
+                        alert(message);
                     }).always((data) => {
                         $("#overlay").fadeOut(300); // Lading 画像を消す
                     });
@@ -198,7 +194,6 @@ $(function () {
     });
 
     function validationErrorDisplay(message) {
-        console.log("aaa");
         if (message.user_id) {
             errorUserId.css("display", "block");
             errorUserId.text(message.user_id[0]);

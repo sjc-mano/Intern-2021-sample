@@ -124,7 +124,7 @@ class UserService
             Log::error($throwable->getFile() . " : line " . $throwable->getLine());
             Log::error('UserService->store ExceptionMessage :\n ' . $throwable->getMessage());
             DB::rollBack();
-            return ['error' => config('const.MESSAGE.ERROR.STORE')];
+            return ['error' => config('const.MESSAGE.ERROR.UPDATE')];
         }
     }
 

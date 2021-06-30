@@ -32,7 +32,7 @@ abstract class BaseRepository
     /**
      * This is method in order to update.
      *
-     * @param Illuminate\Database\Eloquent\Builder $target
+     * @param Builder $target
      * @param Array  $columns
      * @return int
      */
@@ -44,7 +44,7 @@ abstract class BaseRepository
     /**
      * This is method in order to destroy.
      *
-     * @param Illuminate\Database\Eloquent\Builder
+     * @param Builder $target
      * @return int
      */
     public function destroy(Builder $target)
@@ -57,7 +57,7 @@ abstract class BaseRepository
      *
      * @param array $where
      * @param array  $columns
-     * @return Illuminate\Database\Eloquent\Builder $queryBuilder
+     * @return Builder
      */
     public function get(Array $where, Array $columns = ['*'])
     {

@@ -98,7 +98,7 @@ class UserController extends Controller
         // 排他チェック
         $updatedFlg = $this->commonService->updatedCheck("User", $request->user_id, $request->display_page_time);
         if($updatedFlg){
-            return response()->json(['message' => config('const.MESSAGE.UPDATED')], 409);
+            return response()->json(['message' => config('const.MESSAGE.ERROR.UPDATED')], 409);
         }
 
         // 保存処理
